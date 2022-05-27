@@ -22,7 +22,6 @@ public class Coin : MonoBehaviour
         if (other.tag == "Player") {
             _player.AddCoin();
             this.GetComponent<SphereCollider>().enabled = false;
-            Debug.Log("Play sound!");
             AudioSource.PlayClipAtPoint(_coinSound, transform.position);
             Destroy(this.gameObject);
         }
