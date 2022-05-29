@@ -20,9 +20,12 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            if (_player != null) {
-                _player.AddCoin();
+            try {
+                Player _player = other.gameObject.GetComponent<Player>();
+            } catch {
+                Debug.LogError("Failed to find Component `Player` on Game Object with tag: Player");
             }
+            _player.AddCoin();
             this.GetComponent<SphereCollider>().enabled = false;
             AudioSource.PlayClipAtPoint(_coinSound, transform.position);
             Destroy(this.gameObject);
