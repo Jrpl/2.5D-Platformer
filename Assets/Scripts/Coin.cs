@@ -20,7 +20,9 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            _player.AddCoin();
+            if (_player != null) {
+                _player.AddCoin();
+            }
             this.GetComponent<SphereCollider>().enabled = false;
             AudioSource.PlayClipAtPoint(_coinSound, transform.position);
             Destroy(this.gameObject);
