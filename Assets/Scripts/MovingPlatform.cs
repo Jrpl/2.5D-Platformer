@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    [SerializeField]
-    private Transform _pointA;
-    [SerializeField]
-    private Transform _pointB;
+    private Transform _pointA, _pointB;
     [SerializeField]
     private float _speed = 3f;
     private bool _toPointB = true;
@@ -27,7 +24,7 @@ public class MovingPlatform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }
@@ -43,6 +40,18 @@ public class MovingPlatform : MonoBehaviour
             _toPointB = true;
         } else if (transform.position == _pointB.position) {
             _toPointB = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Player") {
+            other.transform.SetParent(this.transform);
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.tag == "Player") {
+            other.transform.SetParent(null);
         }
     }
 }
