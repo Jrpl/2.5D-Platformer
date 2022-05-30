@@ -5,22 +5,22 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _pointA;
+    private Transform _pointA;
     [SerializeField]
-    private GameObject _pointB;
+    private Transform _pointB;
     [SerializeField]
     private float _speed = 3f;
-    private Vector3 _direction;
+    private bool _toPointB = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        _pointA = GameObject.Find("Point_A");
+        _pointA = GameObject.Find("Point_A").transform;
         if (!_pointA) {
             Debug.LogError("Failed to find Game Object: Point_A");
         }
 
-        _pointB = GameObject.Find("Point_B");
+        _pointB = GameObject.Find("Point_B").transform;
         if (!_pointB) {
             Debug.LogError("Failed to find Game Object: Point_B");
         }
@@ -33,13 +33,16 @@ public class MovingPlatform : MonoBehaviour
     }
 
     private void Move() {
-        if (transform.position.x <= _pointA.transform.position.x) {
-            _direction = new Vector3(_speed, 0, 0) * Time.deltaTime;
-        } 
-        if (transform.position.x >= _pointB.transform.position.x) {
-            _direction = new Vector3(-_speed, 0, 0) * Time.deltaTime;
+        if (_toPointB == true) {
+            transform.position = Vector3.MoveTowards(transform.position, _pointB.position, _speed * Time.deltaTime);
+        } else {
+            transform.position = Vector3.MoveTowards(transform.position, _pointA.position, _speed * Time.deltaTime);
         }
-        
-        transform.Translate(_direction);
+
+        if (transform.position == _pointA.position) {
+            _toPointB = true;
+        } else if (transform.position == _pointB.position) {
+            _toPointB = false;
+        }
     }
 }
