@@ -2,7 +2,7 @@
 
 public class Player : MonoBehaviour
 {
-    private CharacterController _controller;
+    // Attributes
     [SerializeField]
     private float _speed = 5f;
     [SerializeField]
@@ -13,10 +13,13 @@ public class Player : MonoBehaviour
     private int _maxJumpCount = 2;
     [SerializeField]
     private int _coins = 0;
-    private float _yVelocity;
-    private int _jumpCount;
     private int _health = 3;
-    private Vector3 _spawn;
+    private int _jumpCount;
+    private float _yVelocity;
+    private Vector3 _respawnPoint;
+
+    // Components
+    private CharacterController _controller;
     private UIManager _uiManager;
 
     void Start()
@@ -33,10 +36,10 @@ public class Player : MonoBehaviour
             Debug.LogError("Failed to find Game Object: UIManager");
         }
 
-        _spawn = transform.position;
-        if (_spawn == new Vector3())
+        _respawnPoint = GameObject.Find("Respawn_Point").transform.position;
+        if (_respawnPoint == new Vector3())
         {
-            Debug.LogError("Failed to find transform.position of Game Object: Player");
+            Debug.LogError("Failed to find transform.position of Game Object: Respawn_Point");
         }
     }
 
@@ -97,7 +100,7 @@ public class Player : MonoBehaviour
             _uiManager.UpdateHealthDisplay(_health);
             if (_health > 0)
             {
-                transform.position = _spawn;
+                transform.position = _respawnPoint;
                 gameObject.SetActive(true);
             }
         }
