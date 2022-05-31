@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Coin : MonoBehaviour
-{    
+{
     private Player _player;
     [SerializeField]
     private AudioClip _coinSound;
 
-    // Start is called before the first frame update
     void Start()
     {
         Player _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -18,8 +15,10 @@ public class Coin : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player") {
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
             Player _player = other.gameObject.GetComponent<Player>();
             _player.AddCoin();
             this.GetComponent<SphereCollider>().enabled = false;

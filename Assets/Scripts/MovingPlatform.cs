@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
@@ -9,48 +7,59 @@ public class MovingPlatform : MonoBehaviour
     private float _speed = 3f;
     private bool _toPointB = true;
 
-    // Start is called before the first frame update
     void Start()
     {
         _pointA = GameObject.Find("Point_A").transform;
-        if (!_pointA) {
+        if (!_pointA)
+        {
             Debug.LogError("Failed to find Game Object: Point_A");
         }
 
         _pointB = GameObject.Find("Point_B").transform;
-        if (!_pointB) {
+        if (!_pointB)
+        {
             Debug.LogError("Failed to find Game Object: Point_B");
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         Move();
     }
 
-    private void Move() {
-        if (_toPointB == true) {
+    private void Move()
+    {
+        if (_toPointB == true)
+        {
             transform.position = Vector3.MoveTowards(transform.position, _pointB.position, _speed * Time.deltaTime);
-        } else {
+        }
+        else
+        {
             transform.position = Vector3.MoveTowards(transform.position, _pointA.position, _speed * Time.deltaTime);
         }
 
-        if (transform.position == _pointA.position) {
+        if (transform.position == _pointA.position)
+        {
             _toPointB = true;
-        } else if (transform.position == _pointB.position) {
+        }
+        else if (transform.position == _pointB.position)
+        {
             _toPointB = false;
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player") {
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
             other.transform.SetParent(this.transform);
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        if (other.tag == "Player") {
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
             other.transform.SetParent(null);
         }
     }
